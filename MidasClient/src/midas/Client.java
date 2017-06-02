@@ -15,7 +15,7 @@ public class Client {
 	private final int firstServerPort = 52000;
 	private int secondServerPort;
 	private int id;
-	private String nickname = "asd";
+	private String nickname = "aaasd";
 	private boolean isConnected = false;
 	private Socket firstClientSocket;
 	private int EnteredRoomID;
