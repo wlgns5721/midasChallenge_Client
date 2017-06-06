@@ -9,6 +9,7 @@ import java.util.ArrayList;
  *
  */
 public class PanelInformation implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private ArrayList<ClassObject> classList;
 	private ArrayList<RelationshipArrow> arrowList;
 	private ClassObject srcObject;

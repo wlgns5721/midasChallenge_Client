@@ -101,16 +101,23 @@ public class ClassPanel extends JPanel implements MouseListener{
 		attributes.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
+				Client client = new Client();
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 					int row = attributes.getSelectedRow();
 					int column = attributes.getSelectedColumn();
 					String inputData = (String) attributes.getValueAt(row, column);
 					if(TypeChecker.arrtibuteTypeCheck(inputData)) {
+						//changeinfo + 클래스 인덱스 + row + column + inputdata 형태로 보낸다.
+						//client.SendData(Client.secondClientSocket,
+						//		"changeinfo"+ Integer.toString(index) +Integer.toString(row)+
+						//		Integer.toString(column)+inputData, 3);
+						
 						ArrayList<String> beforeData = classObjData.getAttributes();
 						beforeData.set(row, inputData);
 						classObjData.setAttributes(beforeData);
 						validate();
 						repaint();
+						
 					}else {
 						JOptionPane.showMessageDialog(null,
 								TypeChecker.getErrorCode(),
@@ -118,6 +125,7 @@ public class ClassPanel extends JPanel implements MouseListener{
 							    JOptionPane.WARNING_MESSAGE);
 					}
 				}else if(e.getKeyCode() == KeyEvent.VK_TAB) {
+					
 					ArrayList<String> beforeData = classObjData.getAttributes();
 					beforeData.add("new attr"+ (beforeData.size()+1));
 					classObjData.setAttributes(beforeData);
@@ -125,6 +133,7 @@ public class ClassPanel extends JPanel implements MouseListener{
 					validate();
 					repaint();
 					BelongToEditPanel.changeClassInfo(classObjData, index);
+					
 				}
 			}
 		});

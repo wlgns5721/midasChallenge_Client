@@ -1,12 +1,14 @@
 package midas;
 
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class FirstFrame extends JFrame{
 	private JButton startButton;
@@ -22,15 +24,17 @@ public class FirstFrame extends JFrame{
 	 */
 	public void MainScreen() {
 		startButton = new JButton("Start");
-		startButton.setBounds(250,300,100,40);
+		startButton.setBounds(240,300,100,40);
 		this.setLayout(null);
 		this.add(startButton);
 		this.setSize(600,400);
-		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		//URL url = getClass().getClassLoader().getResource("extendsarrow.png");
-		//System.out.println(url.toString());
+		ImageIcon mainIcon = new ImageIcon(getClass().getClassLoader().getResource("main.png"));
+		JLabel label = new JLabel(mainIcon);
+		label.setBounds(80, 30, 400, 250);
+		this.add(label);
+		this.setVisible(true);
 		
 		
 		//시작 버튼 리스너

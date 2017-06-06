@@ -33,6 +33,9 @@ public class WaitRoomFrame extends JFrame {
 	private Container container;
 	private JTable jTable;
 	private DefaultTableModel tableModel;
+	private RoomHandlingThread thread;
+	
+	
 	public static boolean isWaitRoom = true;
 	public WaitRoomFrame() {
 		roomVector = new Vector<Room>();
@@ -92,11 +95,19 @@ public class WaitRoomFrame extends JFrame {
 				}
 			}
 		});
-		
-		RoomHandlingThread thread = new RoomHandlingThread();
+		thread = new RoomHandlingThread();
 		thread.start();
 		System.out.println("run");
 	}
+	
+	public JFrame GetJFrame() {
+		return jFrame;
+	}
+	
+	public RoomHandlingThread GetThread() {
+		return thread;
+	}
+	
 	
 	/**
 	 * 서버로부터 방에 대한 정보를 받은 후 파싱을 하는 작업
@@ -195,7 +206,8 @@ public class WaitRoomFrame extends JFrame {
 	 * 
 	 */
 	public void CreateRoom() {
-		new CreateRoomFrame(this.jFrame);
+		new CreateRoomFrame(this);
+		
 	}
 	/**
 	 * 방에 입장하는 함수
@@ -212,7 +224,8 @@ public class WaitRoomFrame extends JFrame {
 		
 		else if(result.equals("ok")){
 			//여기에 클래스 다이어그램 제작 프로그램 실행부분 넣는다.
-			new MainFrame();
+			thread.interrupt();
+			new MainFrame(false);
 			isWaitRoom = false;
 			jFrame.dispose();
 		}
@@ -226,19 +239,18 @@ public class WaitRoomFrame extends JFrame {
 		Client client = new Client();
 		public void run() {
 			while(true) {
+				
+				client.SendData(Client.secondClientSocket,"requestRoomInfo",3);
+				ReceiveRoomInfo();
+				ResetRoomList();
 				try {
 					Thread.sleep(2000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("interrupted");
+					break;
 				}
-				if(isWaitRoom) {
-					client.SendData(Client.secondClientSocket,"requestRoomInfo",3);
-					ReceiveRoomInfo();
-					ResetRoomList();
-					continue;
-				}
-				break;
+				
 			}
 			System.out.println("waitroom thread closed");			
 			

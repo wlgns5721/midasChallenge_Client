@@ -26,7 +26,7 @@ public class CreateRoomFrame extends JFrame{
 	private JTextField roomNameField;
 	private JComboBox personLimitComboBox;
 	
-	public CreateRoomFrame(JFrame waitRoomFrame) {
+	public CreateRoomFrame(WaitRoomFrame waitRoomFrame) {
 		createButton = new JButton("Create");
 		cancelButton = new JButton("Cancel");
 		createButton.setBounds(200,200,80,40);
@@ -63,6 +63,7 @@ public class CreateRoomFrame extends JFrame{
 		createButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
+				waitRoomFrame.GetThread().interrupt();
 				SendRoomInfoToServer();
 				WaitRoomFrame.isWaitRoom = false;
 				try {
@@ -71,9 +72,10 @@ public class CreateRoomFrame extends JFrame{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 					}
-				new MainFrame();    //클래스 다이어그램 제작 프로그램 실행
-				waitRoomFrame.dispose();
+				new MainFrame(true);    //클래스 다이어그램 제작 프로그램 실행
+				waitRoomFrame.GetJFrame().dispose();
 				dispose();
+				
 			}
 		});
 	

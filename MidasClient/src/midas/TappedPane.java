@@ -10,7 +10,7 @@ import javax.swing.JTabbedPane;
  */
 public class TappedPane extends JTabbedPane {
 	private ArrayList<PanelInformation> infos = new ArrayList<PanelInformation>();
-	
+	private EditPanel jp;
 	public TappedPane() {
 		initUI();
 	}
@@ -29,10 +29,9 @@ public class TappedPane extends JTabbedPane {
 	 */
 	public void addInfo(PanelInformation getInfo){
 		this.infos.add(getInfo);
-		EditPanel jp = new EditPanel(getInfo);
+		jp = new EditPanel(getInfo);
 		addTab(getInfo.getDocumentName(), jp);
 		setTabComponentAt(infos.size()-1, new CustomTab(this));
-		jp.StartThread();
 	}
 	/**
 	 * 탭들을 구성하는 PanelInformation list를 반환하는 메서드
@@ -62,5 +61,9 @@ public class TappedPane extends JTabbedPane {
 	public PanelInformation getNowSelectedInfo(){
 		System.out.println("in getNowSelected : " + infos.get(this.getSelectedIndex()).getDocumentName());
 		return infos.get(this.getSelectedIndex());
+	}
+	
+	public EditPanel GetEditPanel() {
+		return jp;
 	}
 }

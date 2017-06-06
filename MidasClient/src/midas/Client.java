@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 
 
 public class Client {
-	private final String server_ip = "172.21.21.164";
+	private final String server_ip = "192.168.219.157";
 	private final int firstServerPort = 52000;
 	private int secondServerPort;
 	private int id;
@@ -87,7 +87,7 @@ public class Client {
 				sb.append("0");
 			String format = sb.toString();
 			DecimalFormat df = new DecimalFormat(format);
-			String text_len = df.format(text.length());
+			String text_len = df.format(text.getBytes().length);
 			String data = text_len + text;
 			out = new BufferedWriter( new OutputStreamWriter(socket.getOutputStream()));
 			out.write(data);

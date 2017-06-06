@@ -25,12 +25,10 @@ public class EditPanel extends JPanel implements MouseListener, MouseMotionListe
 	private static final long serialVersionUID = 1L;
 	private PanelInformation info;
 	private Location arrorwlocation;
-	private ReceiveDataInRoomThread thread;
 	public EditPanel(PanelInformation info) {
 		this.info = info;
 		this.addMouseListener(this);
 		initUI();
-		thread = new ReceiveDataInRoomThread();
 	}
 
 	public void initUI() {
@@ -137,6 +135,7 @@ public class EditPanel extends JPanel implements MouseListener, MouseMotionListe
 		classPanel.setBackground(Color.white);
 		classPanel.setBorder(new LineBorder(Color.black));
 		add(classPanel);
+		
 	}
 
 	@Override
@@ -272,36 +271,9 @@ public class EditPanel extends JPanel implements MouseListener, MouseMotionListe
 
 	}
 	
-	public void StartThread() {
-		thread.start();
+	public PanelInformation GetPanelInformation() {
+		return info;
 	}
 	
-	public void ReceiveDataInRoom() {
-		Client client = new Client();
-		String objectType = client.ReceiveData(Client.secondClientSocket,3);
-		if(objectType.equals("ClassObject")) {
-			try {
-				ObjectInputStream ois = new ObjectInputStream(Client.secondClientSocket.getInputStream());
-				ClassObject classObject = (ClassObject)ois.readObject();
-				info.addClassObject(classObject);
-				repaint();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			 catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
-	}
-	
-	class ReceiveDataInRoomThread extends Thread {
-		public void run() {
-			while(true) {
-				ReceiveDataInRoom();
-			}
-		}
-	}
+
 }

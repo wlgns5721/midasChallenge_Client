@@ -1,6 +1,8 @@
 package midas;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JFrame;
 
@@ -103,8 +105,12 @@ public class DialgFrame extends javax.swing.JFrame {
 						System.out.println("in dialogFrame location : " + location);
 						
 						
-						info.addRelationshipArrow(new RelationshipArrow(class1, class2,location, "Dependency"));
-						MainFrame.editPanel.repaint();
+						RelationshipArrow arrowObject = new RelationshipArrow(class1, class2,location, "Dependency");						
+						SendArrowInformationToServer(arrowObject);
+						
+						
+						
+						
 					}
 				}else if (mode == 1){
 					ClassObject class1 = info.getSrcObject();
@@ -117,8 +123,8 @@ public class DialgFrame extends javax.swing.JFrame {
 						Location location = new Location((class1Location.getStartX()+class1Location.getEndX())/2,class1Location.getStartY(),(class2Location.getStartX()+class2Location.getEndX())/2,class2Location.getEndY());
 						//((EditPanel)MainFrame.editPanel.getTabComponentAt(tabNum)).setArrorwlocation(location);
 						System.out.println("in dialogFrame location : " + location);
-						info.addRelationshipArrow(new RelationshipArrow(class1, class2,location, "Extends"));
-						MainFrame.editPanel.repaint();
+						RelationshipArrow arrowObject = new RelationshipArrow(class1, class2,location, "Extends");
+						SendArrowInformationToServer(arrowObject);
 					}
 				}
 				
@@ -203,6 +209,18 @@ public class DialgFrame extends javax.swing.JFrame {
             
            
         }
+    }
+    
+    void SendArrowInformationToServer(RelationshipArrow arrowObject) {
+    	try {
+			Client client = new Client();
+			client.SendData(Client.secondClientSocket, "makearrow", 3);
+			ObjectOutputStream oos = new ObjectOutputStream(Client.secondClientSocket.getOutputStream());
+			oos.writeObject(arrowObject);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		};
     }
 
     
